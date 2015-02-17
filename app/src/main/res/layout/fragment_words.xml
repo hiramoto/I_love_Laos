@@ -1,0 +1,43 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" tools:context="com.laos.hiramoto.ilovelaos.WordsFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="エンド"
+        android:id="@+id/button2"
+        android:layout_gravity="right|bottom" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="スタート"
+        android:id="@+id/button"
+        android:layout_gravity="left|bottom" />
+
+    <TextView
+        android:layout_width="175dp"
+        android:layout_height="113dp"
+        android:text="New Text"
+        android:id="@+id/textView"
+        android:layout_gravity="center"
+        android:textSize="20dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CHARACTER FLASH"
+        android:id="@+id/button3"
+        android:layout_gravity="center_horizontal|top" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="WORDS FLASH"
+        android:id="@+id/button4"
+        android:layout_gravity="center" />
+
+</FrameLayout>

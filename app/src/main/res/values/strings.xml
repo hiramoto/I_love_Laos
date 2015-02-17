@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">I love Laos</string>
+    <string name="title_section1">WORDS</string>
+    <string name="title_section2">GRAMMAR</string>
+    <string name="title_section3">LISTENING</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="SECTION_01">TOP</string>
+    <string name="blank_title_1">Hello Blank1</string>
+    <string name="blank_title_2">hello 2!!</string>
+    <string name="title_activity_words">WordsActivity</string>
+    <string name="title_activity_words_flash">WordsFlashActivity</string>
+
+</resources>
