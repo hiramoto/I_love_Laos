@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class WordsFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -54,20 +55,18 @@ public class WordsFragment extends Fragment {
     @Override
     public  View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View v = inflater.inflate(R.layout.fragment_words,container,false);
-
-        Button words = (Button)v.findViewById(R.id.button3);
+        Button words = (Button)v.findViewById(R.id.button4);
         words.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = WordsFragment.this.getActivity().getIntent();
-                intent.setClass(WordsFragment.this.getActivity().getApplicationContext(),
+                Intent intent = getActivity().getIntent();
+                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                intent.setClass(getActivity().getApplicationContext(),
                         WordsFlashActivity.class);
-                WordsFragment.this.startActivity(intent);
+                startActivity(intent);
             }
         });
-
         return v;
-
     }
 
 
