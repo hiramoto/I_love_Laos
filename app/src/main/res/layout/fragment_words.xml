@@ -1,21 +1,21 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" tools:context="com.laos.hiramoto.ilovelaos.WordsFragment">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="fill_parent"
+    android:layout_height="wrap_content" tools:context="com.laos.hiramoto.ilovelaos.WordsFragment"
+    android:orientation="vertical">
 
     <!-- TODO: Update blank fragment layout -->
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="CHARACTER FLASH"
         android:id="@+id/button3"
         android:layout_gravity="center_horizontal|top" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="WORDS FLASH"
-        android:id="@+id/button4"
-        android:layout_gravity="center" />
+        android:id="@+id/button4" />
 
-</FrameLayout>
+</LinearLayout>
