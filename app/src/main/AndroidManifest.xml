@@ -20,6 +20,10 @@
             android:name=".WordsFlashActivity"
             android:label="@string/title_activity_words_flash" >
         </activity>
+        <activity
+            android:name=".CharacterActivity"
+            android:label="@string/title_activity_character" >
+        </activity>
     </application>
 
 </manifest>

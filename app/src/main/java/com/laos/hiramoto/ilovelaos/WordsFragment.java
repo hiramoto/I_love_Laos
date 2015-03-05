@@ -55,6 +55,18 @@ public class WordsFragment extends Fragment {
     @Override
     public  View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View v = inflater.inflate(R.layout.fragment_words,container,false);
+        Button chars = (Button)v.findViewById(R.id.button3);
+        chars.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = getActivity().getIntent();
+                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                intent.setClass(getActivity().getApplicationContext(),
+                        CharacterActivity.class);
+                startActivity(intent);
+            }
+        });
+
         Button words = (Button)v.findViewById(R.id.button4);
         words.setOnClickListener(new View.OnClickListener() {
             @Override

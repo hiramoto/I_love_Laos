@@ -12,5 +12,7 @@
     <string name="blank_title_2">hello 2!!</string>
     <string name="title_activity_words">WordsActivity</string>
     <string name="title_activity_words_flash">WordsFlashActivity</string>
+    <string name="title_activity_character">CharacterActivity</string>
+    <string name="pronunciation_test">kʰuwˊaayʔ</string>
 
 </resources>

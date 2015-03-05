@@ -17,7 +17,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     private static String DB_NAME = "laos";
     private static String DB_NAME_ASSET = "laos.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     private SQLiteDatabase mDatabase;
     private final Context mContext;
@@ -34,7 +34,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
      */
     public void createEmptyDataBase() throws IOException {
         boolean dbExist = checkDataBaseExists();
-
+        dbExist = false;
         if (dbExist) {
             // すでにデータベースは作成されている
         } else {
