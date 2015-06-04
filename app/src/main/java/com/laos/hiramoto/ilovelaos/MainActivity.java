@@ -2,6 +2,7 @@ package com.laos.hiramoto.ilovelaos;
 
 import java.util.Locale;
 
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
@@ -96,6 +97,9 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+
+            Intent intent = new Intent(this,SettingsActivity.class);
+            startActivity(intent);
             return true;
         }
 

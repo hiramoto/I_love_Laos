@@ -97,6 +97,7 @@ public class WordsFlashFragment extends Fragment {
 
         Button start = (Button)v.findViewById(R.id.button);
         Button stop = (Button)v.findViewById(R.id.button2);
+        Button next = (Button)v.findViewById(R.id.button7);
 
         start.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
@@ -107,6 +108,12 @@ public class WordsFlashFragment extends Fragment {
         stop.setOnClickListener(new View.OnClickListener(){
             public  void  onClick(View v){
                 loopEngine.stop();
+            }
+        });
+
+        next.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v){
+                update();
             }
         });
 
@@ -127,7 +134,9 @@ public class WordsFlashFragment extends Fragment {
                 cursor.moveToFirst();
                 text.append(cursor.getString(1));
                 text.append("\n");
-                text.append(cursor.getString(2));
+                if(!cursor.isNull(2)){
+                    text.append(cursor.getString(2));
+                }
                 text.append("\n");
                 text.append(cursor.getString(3));
                 text.append("\n");

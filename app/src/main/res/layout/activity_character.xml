@@ -9,7 +9,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
+        android:text="Start"
         android:id="@+id/button5"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
@@ -18,7 +18,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
+        android:text="Stop"
         android:id="@+id/button6"
         android:layout_alignBottom="@+id/button5"
         android:layout_alignParentRight="true"
@@ -28,7 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
+        android:text="character"
         android:id="@+id/textView2"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
