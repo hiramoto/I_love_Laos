@@ -20,7 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-public class MainActivity extends ActionBarActivity implements ActionBar.TabListener,WordsFragment.OnFragmentInteractionListener,GrammarFragment.OnFragmentInteractionListener {
+public class MainActivity extends ActionBarActivity implements ActionBar.TabListener,WordsFragment.OnFragmentInteractionListener,DictionaryFragment.OnFragmentInteractionListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -143,7 +143,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                 WordsFragment blank = new WordsFragment();
                 return blank;
             }else{
-                GrammarFragment blank2 = new GrammarFragment();
+                DictionaryFragment blank2 = new DictionaryFragment();
                 return blank2;
             }
         }

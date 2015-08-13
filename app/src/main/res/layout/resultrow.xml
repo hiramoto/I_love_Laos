@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="yomi"
+        android:id="@+id/yomi"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="10dp"
+        android:textIsSelectable="true"
+        android:textColor="#ff000000" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:text="wordJpn"
+        android:id="@+id/wordJpn"
+        android:layout_below="@+id/yomi"
+        android:layout_alignStart="@+id/yomi"
+        android:layout_alignLeft="@+id/yomi"
+        android:textIsSelectable="true"
+        android:textColor="#ff000000" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="wordLao"
+        android:id="@+id/wordLao"
+        android:layout_below="@+id/wordJpn"
+        android:layout_alignStart="@+id/wordJpn"
+        android:layout_alignLeft="@+id/wordJpn"
+        android:textIsSelectable="true"
+        android:textColor="#ff000000" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="typeLaoScript"
+        android:id="@+id/typeLaoScript"
+        android:layout_below="@+id/wordLao"
+        android:layout_alignStart="@+id/wordLao"
+        android:layout_alignLeft="@+id/wordLao"
+        android:textIsSelectable="true"
+        android:textColor="#ff000000" />
+
+</RelativeLayout>

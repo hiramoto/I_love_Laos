@@ -2,6 +2,7 @@ package com.laos.hiramoto.ilovelaos;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -166,8 +168,13 @@ public class WordsFlashFragment extends Fragment {
         public void handleMessage(Message msg) {
             this.removeMessages(0);//既存のメッセージは削除
             if(this.isUpdate){
+
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+                String str = sharedPreferences.getString("Speed","");
+                int i = Integer.parseInt(str);
+
                 WordsFlashFragment.this.update();//自信が発したメッセージを取得してupdateを実行
-                sendMessageDelayed(obtainMessage(0), 1000);//100ミリ秒後にメッセージを出力
+                sendMessageDelayed(obtainMessage(0), i);//100ミリ秒後にメッセージを出力
             }
         }
     };

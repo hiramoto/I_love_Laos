@@ -17,7 +17,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     private static String DB_NAME = "laos";
     private static String DB_NAME_ASSET = "laos.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 7;
 
     private SQLiteDatabase mDatabase;
     private final Context mContext;
