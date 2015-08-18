@@ -1,0 +1,28 @@
+_id	category	idx	character	char_hatsuon	char_pronun	word	word_hatsuon	word_pronun	meaning
+1	consonant	1	ກ	カ	k	​ໄກ່	カイ	kay	にわとり
+2	consonant	2	ຂ	クァ	kʰ	​ໄຂ່	クァイ	kʰay	卵
+3	consonant	3	ຄ	クァ	kʰ	ຄວາຍ	クァワイ	kʰuwˊaay	水牛
+4	consonant	4	ງ	ヌ	ŋ	​ງົວ	ヌア	ŋˊua	牛
+5	consonant	5	​ຈ	チョ		​ຈອກ	チョーク		コップ
+6	consonant	6	ສ	ス		ເສືອ	スーア		虎
+7	consonant	7	ຊ	ス		ຊ້າງ​	サーン		ゾウ
+8	consonant	8	ຍ	ヌ		ຍຸງ	ヌン		蚊
+9	consonant	9	ດ	デ		ເດັກ	デック		子ども
+10	consonant	10	ຕ	テ		ຕາ​	ター		眼
+11	consonant	11	ຖ	ト		ຖົງ​	トォン		袋
+12	consonant	12	ທ	テュ		ທຸງ	テュン		旗
+13	consonant	13	ນ	ノ		ນົກ​	ノッ		鳥
+14	consonant	14	ບ	ブ		ແບ້​	ベー		ヤギ
+15	consonant	15	ປ	プ		ປາ	パー		魚
+16	consonant	16	ຜ	パ		ເຜິ້ງ	パァン		八
+17	consonant	17	ຟ	フ		ຟົນ	フェーン		雨
+18	consonant	18	ພ	ップ		ພູ	ップゥ		山
+19	consonant	19	ຟ	フ		ໄຟ​	フェイ		火
+20	consonant	20	ມ	ム		ແມວ	メーゥ		ネコ
+21	consonant	21	ຢ	ヤ		ຢາ	ヤー		薬
+22	consonant	22	ຣ	ラ		ຣະຄັງ	ラカァン		鐘
+23	consonant	23	ລ	リ		ລີນ	リーン		サル
+24	consonant	24	ວ	ゥ		ວີ	ゥイー		扇子
+25	consonant	25	ຫ	ハ		ຫ່ານ	ハーン		ガチョウ
+26	consonant	26	ອ	オ		ໂອ	オー		桶
+27	consonant	27	 ຮ	フ		ເຮືອນ	フーアーン		家

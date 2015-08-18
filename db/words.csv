@@ -1,0 +1,112 @@
+_id	laotian	kana	japanese	roman	situation	lesson
+1	ພາສາລາວ	パーサーラーオ	ラオス語	raosu go	textbook	
+2	ຂ້ອຍ	コーイ	私	watashi	textbook	
+3	ພາສາຍີ່ປຸ່ນ	パーサーイープゥン	日本語	nihon go	textbook	
+4	ເຈົ້າ	チャゥ	あなた	anata	textbook	
+5	ຊື່	スー	名前	namae	textbook	
+6	ຂໍໂທດ	コトーッ	すみません	sumimasen	textbook	
+7	ຄອມພິວເຕີ	コンピュータァー	コンピュータ	konpyuuta	textbook	
+8	ປຶ້ມ	プム	本	hon	textbook	
+9	ຫນຶ່ງ	ヌング	１	ichi	textbook	
+10	​ສອງ	ソォーング	2	ni	textbook	
+11	ສາມ	サーン	3	san	textbook	
+12	​ສີ່	スィー	4	yon	textbook	
+13	​ຫ້າ	ハー	5	go	textbook	
+14	​ຫົກ	ホッ	6	roku	textbook	
+15	​ເຈັດ	ジェッ	7	nana	textbook	
+16	​ແປດ	プェー	8	hachi	textbook	
+17	​ເກົ້າ	カウ	9	kyuu	textbook	
+18	​ສິບ	スィッブ	10	juu	textbook	
+19	​ສິບເອັດ	スィップエン	11	juuichi	textbook	
+20	​ສິບສອງ	スィップソーング	12	juuni	textbook	
+21	ສິບສາມ	スィップサーン	13	juusann	textbook	
+22	​ສິບ​ສີ່	スィップスィー	14	juuyonn	textbook	
+23	​ຊາວ	サーゥ	20	nijuu	textbook	
+24	​​ຊາວ ເອັດ	サーゥエン	21	nijuuichi	textbook	
+25	ສາມ ​ສິບ ເອັດ	サーンスィップエン	31	sannjuuichi	textbook	
+26	​ສີ່ ​ສິບ	スィースィップ	40	yonnjuu	textbook	
+27	​ເກົ້າ ​ສິບ	カゥスィップ	90	kyuujuu	textbook	
+28	​ຫນຶ່ງຮ້ອຍ	ヌゥーンホィン	100	hyaku	textbook	
+29	​ຫນຶ່ງພັນ	ヌゥーンパァン	1000	senn	textbook	
+30	​ສະບາຍດີ	サバイディー	こんにちは	konnichiwa	textbook	
+31	ແກງແຮງດີ / ສັບອາຍດີ		元気		textbook	
+32	ແກວງ		県		textbook	
+33	ຂ້ອຍ		私		textbook	
+34	ຂອບໃຈ		ありがとう		textbook	
+35	ເຈົ້າ		あなた		textbook	
+36	ຈາກ / ແຕ່		から		textbook	
+37	ສັບອາຍດີ		こんにちは		textbook	
+38	ໃສ / ໃສແດ່		どこ（複数）		textbook	
+39	ສັນຊາດ		国籍		textbook	
+40	ສອນ		教える		textbook	
+41	ຊື່		名前		textbook	
+42	ເຊີນ		招待する		textbook	
+43	ເຊັ່ນດຽວກັນ / ເຊັ່ນກັນ		私も同様です/こちらこそ		textbook	
+44	ໂຊກດີ		幸運		textbook	
+45	ຫຍັງ / ຫຍັງແດ່		何（複数）		textbook	
+46	ຍີ່ປຸ່ນ		日本		textbook	
+47	ຍິນດີທີ່ຮູ້ຈັກ / ຍິນດີທີ່ໄດ້ຮຸ້ຈັກ		はじめまして		textbook	
+48	ເດ? / ເຈົ້າເດ ?		～は？/あなたは？		textbook	
+49	ຕອບ		答える		textbook	
+50	ຖື		持つ		textbook	
+51	ຖາມ		尋ねる		textbook	
+52	ທະວີບ		大陸		textbook	
+53	ໜ້ອຍໜຶ່ງ / ໜອ້ດຽວ / ຈັກໂໜ້ອຍ		少し　/　ほんの少しだけ/(時間が)少し		textbook	
+54	ນະຄອນຫຼວງ		首都		textbook	
+55	ນັ່ງ		座る		textbook	
+56	ນາມສະກຸນ		名字		textbook	
+57	ແນວໃດ(ແດ່) / ຈັ່ງໃດ(ແດ່)		どのように		textbook	
+58	ບໍ່ / ບໍ?		いいえ　/　～ですか？		textbook	
+59	ບ້ານ		村、家		textbook	
+60	ປະເທດ		国		textbook	
+61	ປີ		年		textbook	
+62	ເປັນ / ແມ່ນ / ຢູ່ /ຄື		です、である　(Be動詞)		textbook	
+63	ພາສາ		言語		textbook	
+64	ໝູ່ / ເພື່ອນ		友人、友達		textbook	
+65	ມາ		来る		textbook	
+66	ເມືອງ		市/町/国		textbook	
+67	ຫຼາຍ		たくさん、とても		textbook	
+68	ລາກ່ອນ		さようなら		textbook	
+69	ລາວ		ラオス、彼/彼女		textbook	
+70	ແລ້ວ		(作業などが)終わる		textbook	
+71	ເວົ້າ		話す		textbook	
+72	ວຽກ		仕事、用事		textbook	
+73	ຫາກໍ່ (V)		(V) したばかり		textbook	
+74	ຫໍພັກ		寮		textbook	
+75	ຫ້ອງຮຽນ		教室		textbook	
+76	ຫ້ອງການ		事務所、オフィス		textbook	
+77	ອາສາສຳໝັກ		ボランティア		textbook	
+78	ອາຈານ		先生、教師		textbook	
+79	ອາທິດ		週		textbook	
+80	ອັງກິດ		英語		textbook	
+81	ຮຽນ		学ぶ、勉強する、習う		textbook	
+82	ເຮັດວຽກ, ເຮັດການ		仕事する		textbook	
+83	ເຮືອນ		家		textbook	
+84	ກະລຸນາ		お願いします／(Ｖ)して下さい		textbook	
+85	ກະດານ		黒板		textbook	
+86	ໃກ້		近い		textbook	
+87	ກຶ້ນ (ເທິງ)		（上に）上がる		textbook	
+88	ຄອມພິວເຕີ		コンピュータ		textbook	
+89	ເຄືອງພິມ, ພິນເຕີ		プリンタ		textbook	
+90	ງາມ		美しい、、きれい		textbook	
+91	ສໍດຳ		鉛筆		textbook	
+92	ຊິ / ຈະ		～つもり		textbook	
+93	ຊັ້ນ (ເທິງ / ລຸ່ນ)		～階（上の階／下の階）		textbook	
+94	ຍ່າງ		歩く		textbook	
+95	ດຳລົງຊີວິດ		生活する		textbook	
+96	ຕະຫຼາດ		市場		textbook	
+97	ຕໍ່ໄປ		次		textbook	
+98	ຕູ້		たんす		textbook	
+99	ໂຕະ		机		textbook	
+100	ຕັ່ງ		椅子		textbook	
+101	ທີ່ນີ້ / ທີ່ນັ້ນ		ここ／そこ		textbook	
+102	ເທັບ / ຊີດີ		テープ／ＣＤ		textbook	
+103	ທາງ		道路、道		textbook	
+104	ນີ້ / ນັ້ນ		これ／それ		textbook	
+105	ແນະນຳ		紹介する		textbook	
+106	ນາງພະນຍາບານ		看護婦		textbook	
+107	ນັກສົນລະບະທານ		灌漑設備師		textbook	
+108	ບັນຫາ		問題		textbook	
+109	ບິກ		ボールペン		textbook	
+110	ບອກ		言う、伝える（tell）		textbook	
+111	ປະທູ		ドア		textbook	
