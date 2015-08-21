@@ -2,6 +2,7 @@ package com.laos.hiramoto.ilovelaos;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
+
+import java.io.IOException;
+import java.sql.SQLException;
 
 public class WordsFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -50,6 +54,22 @@ public class WordsFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        //DBが古いORない場合、新規作成
+        SQLiteDatabase db = new DaoMaster.DevOpenHelper(this.getActivity(), "laosDb", null).getWritableDatabase();
+        DaoSession daoSession = new DaoMaster(db).newSession();
+        dictionaryDao dicDao = daoSession.getDictionaryDao();
+        if(dicDao.loadAll().size() == 0){
+            try{
+                FileLoader.loadData(getActivity().getApplicationContext(),getActivity());
+            }catch (IOException ioe)
+            {
+                //TODO:トーストを挙げて、処理終了
+            }catch(SQLException sqe){
+                //TODO:トーストを挙げて、処理終了
+            }
+
+        }
+
     }
 
     @Override

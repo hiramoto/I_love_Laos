@@ -1,0 +1,77 @@
+import de.greenrobot.daogenerator.DaoGenerator;
+import de.greenrobot.daogenerator.Entity;
+import de.greenrobot.daogenerator.Schema;
+
+// DBのバージョン
+def dbVersion = 20
+// 出力先のパッケージ名
+def daoOutputPackage = "com.laos.hiramoto.ilovelaos"
+// 出力先のディレクトリパス
+def daoOutputDirPath = "app/src-gen/main/java"
+
+// generatorで作成したディレクトリを削除する
+task daoGeneratorClean(type: Delete) {
+    delete "../${daoOutputDirPath}"
+}
+
+task daoGenerator {
+
+    description 'daoを生成します'
+
+    doLast {
+        Schema schema = new Schema(dbVersion, daoOutputPackage);
+
+        // ------------- この辺でテーブル定義 START -------------------
+
+
+        // Table characters
+        Entity charsTable = schema.addEntity("characters");
+
+        charsTable.addLongProperty("_id").primaryKey().autoincrement().notNull().unique();
+        charsTable.addStringProperty("category").notNull();
+        charsTable.addIntProperty("idx");
+        charsTable.addStringProperty("character");
+        charsTable.addStringProperty("char_hatsuon");
+        charsTable.addStringProperty("char_pronun");
+        charsTable.addStringProperty("word");
+        charsTable.addStringProperty("word_hatsuon");
+        charsTable.addStringProperty("word_pronun");
+        charsTable.addStringProperty("meaning");
+
+        // Table dictionary
+        Entity dicTable = schema.addEntity("dictionary");
+
+        dicTable.addLongProperty("_id").primaryKey().autoincrement().notNull().unique();
+        dicTable.addStringProperty("yomi").notNull();
+        dicTable.addStringProperty("wordJpn").notNull();
+        dicTable.addStringProperty("wordLao").notNull();
+        dicTable.addStringProperty("typeLaoScript").notNull();
+
+        // Table words
+        Entity wordsTable = schema.addEntity("words");
+
+        wordsTable.addLongProperty("_id").primaryKey().autoincrement().notNull().unique();
+        wordsTable.addStringProperty("laotian");
+        wordsTable.addStringProperty("kana");
+        wordsTable.addStringProperty("japanese");
+        wordsTable.addStringProperty("roman");
+        wordsTable.addStringProperty("situation");
+        wordsTable.addIntProperty("lesson");
+
+
+        // ------------- この辺でテーブル定義 END -------------------
+
+        try {
+
+            // 未作成ならディレクトリを作る
+            File file = new File(daoOutputDirPath);
+            if (!file.exists()) {
+                file.mkdirs();
+            }
+            // Dao生成!
+            new DaoGenerator().generateAll(schema, daoOutputDirPath);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}

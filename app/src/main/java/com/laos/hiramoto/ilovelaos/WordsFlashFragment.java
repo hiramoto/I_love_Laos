@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.io.IOException;
+import java.util.List;
 
 
 public class WordsFlashFragment extends Fragment {
@@ -32,13 +33,15 @@ public class WordsFlashFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private int idx = 1;
 
     private OnFragmentInteractionListener mListener;
 
     private LoopEngine loopEngine = new LoopEngine();
 
-    private  int serial = 0;
+//    private  int serial = 0;
+
+    private List<dictionary> dicList = null;
+    private int idx = 0;
 
     private static final String[] COLUMNS = {"_id", "laotian", "kana", "japanese"};
     SQLiteDatabase db;
@@ -78,20 +81,20 @@ public class WordsFlashFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        setDatabase();
+        //setDatabase();
     }
 
-    private void setDatabase() {
-        mDbHelper = new DataBaseHelper(this.getActivity());
-        try {
-            mDbHelper.createEmptyDataBase();
-            db = mDbHelper.openDataBase();
-        } catch (IOException ioe) {
-            throw new Error("Unable to create database");
-        } catch(SQLException sqle){
-            throw sqle;
-        }
-    }
+//    private void setDatabase() {
+//        mDbHelper = new DataBaseHelper(this.getActivity());
+//        try {
+//            mDbHelper.createEmptyDataBase();
+//            db = mDbHelper.openDataBase();
+//       } catch (IOException ioe) {
+//            throw new Error("Unable to create database");
+//        } catch(SQLException sqle){
+//            throw sqle;
+//       }
+//    }
 
     @Override
     public  View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -129,22 +132,44 @@ public class WordsFlashFragment extends Fragment {
         StringBuilder text = new StringBuilder();
 
         try{
-            serial++;
-            Cursor cursor = findData(serial);
-            boolean hasdata = cursor.moveToFirst();
-            if(hasdata){
-                cursor.moveToFirst();
-                text.append(cursor.getString(1));
-                text.append("\n");
-                if(!cursor.isNull(2)){
-                    text.append(cursor.getString(2));
-                }
-                text.append("\n");
-                text.append(cursor.getString(3));
-                text.append("\n");
+//            serial++;
+//            Cursor cursor = findData(serial);
+//            boolean hasdata = cursor.moveToFirst();
+//            if(hasdata){
+//                cursor.moveToFirst();
+//                text.append(cursor.getString(1));
+//                text.append("\n");
+//                if(!cursor.isNull(2)){
+//                    text.append(cursor.getString(2));
+//                }
+//                text.append("\n");
+//                text.append(cursor.getString(3));
+//                text.append("\n");
+//            }else{
+//                serial = 0;
+//            }
+            if(dicList == null) {
+                SQLiteDatabase db = new DaoMaster.DevOpenHelper(getActivity(), "laosDb", null).getWritableDatabase();
+                DaoSession daoSession = new DaoMaster(db).newSession();
+                dictionaryDao dicDao = daoSession.getDictionaryDao();
+                dicList = dicDao.loadAll();
+                idx = 0;
+            }else if(dicList.size()-1 == idx) {
+                idx = 0;
             }else{
-                serial = 0;
+                idx += 1;
             }
+            dictionary dicEntry = dicList.get(idx);
+
+            text.append(dicEntry.getWordLao());
+            text.append("\n");
+            if(! (dicEntry.getYomi() == null)){
+                text.append(dicEntry.getYomi());
+            }
+            text.append("\n");
+            text.append(dicEntry.getWordJpn());
+            text.append("\n");
+
         }finally{
             //db.close();
         }
@@ -173,7 +198,7 @@ public class WordsFlashFragment extends Fragment {
                 String str = sharedPreferences.getString("Speed","");
                 int i = Integer.parseInt(str);
 
-                WordsFlashFragment.this.update();//自信が発したメッセージを取得してupdateを実行
+                WordsFlashFragment.this.update();//自身が発したメッセージを取得してupdateを実行
                 sendMessageDelayed(obtainMessage(0), i);//100ミリ秒後にメッセージを出力
             }
         }

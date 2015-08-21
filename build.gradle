@@ -9,11 +9,29 @@ buildscript {
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
+
+        classpath 'de.greenrobot:greendao:2.0.0'
+        classpath 'de.greenrobot:greendao-generator:2.0.0'
+        classpath 'org.freemarker:freemarker:2.3.19'
+
     }
 }
 
 allprojects {
     repositories {
         jcenter()
+    }
+}
+
+project(':DaoGenerator') {
+    buildscript {
+        repositories {
+            jcenter()
+        }
+        dependencies {
+            classpath 'de.greenrobot:greendao:2.0.0'
+            classpath 'de.greenrobot:greendao-generator:2.0.0'
+            classpath 'org.freemarker:freemarker:2.3.19'
+        }
     }
 }
