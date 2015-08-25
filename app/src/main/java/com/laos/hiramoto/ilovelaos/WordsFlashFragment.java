@@ -33,24 +33,12 @@ public class WordsFlashFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-
-    private OnFragmentInteractionListener mListener;
-
     private LoopEngine loopEngine = new LoopEngine();
 
 //    private  int serial = 0;
 
-    private List<dictionary> dicList = null;
+    private List<words> wordsList = null;
     private int idx = 0;
-
-    private static final String[] COLUMNS = {"_id", "laotian", "kana", "japanese"};
-    SQLiteDatabase db;
-    private DataBaseHelper mDbHelper;
-
-    private Cursor findData(int id) {
-        Cursor cursor = db.query("words", COLUMNS, "_id=" + id, null, null, null, "_id");
-        return cursor;
-    }
 
     /**
      * Use this factory method to create a new instance of
@@ -81,20 +69,12 @@ public class WordsFlashFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        //setDatabase();
-    }
+        SQLiteDatabase db = new DaoMaster.DevOpenHelper(getActivity(), "laosDb", null).getWritableDatabase();
+        DaoSession session = new DaoMaster(db).newSession();
+        wordsDao dao = session.getWordsDao();
+        wordsList = dao.loadAll();
 
-//    private void setDatabase() {
-//        mDbHelper = new DataBaseHelper(this.getActivity());
-//        try {
-//            mDbHelper.createEmptyDataBase();
-//            db = mDbHelper.openDataBase();
-//       } catch (IOException ioe) {
-//            throw new Error("Unable to create database");
-//        } catch(SQLException sqle){
-//            throw sqle;
-//       }
-//    }
+    }
 
     @Override
     public  View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -131,48 +111,16 @@ public class WordsFlashFragment extends Fragment {
         //TextViewに表示
         StringBuilder text = new StringBuilder();
 
-        try{
-//            serial++;
-//            Cursor cursor = findData(serial);
-//            boolean hasdata = cursor.moveToFirst();
-//            if(hasdata){
-//                cursor.moveToFirst();
-//                text.append(cursor.getString(1));
-//                text.append("\n");
-//                if(!cursor.isNull(2)){
-//                    text.append(cursor.getString(2));
-//                }
-//                text.append("\n");
-//                text.append(cursor.getString(3));
-//                text.append("\n");
-//            }else{
-//                serial = 0;
-//            }
-            if(dicList == null) {
-                SQLiteDatabase db = new DaoMaster.DevOpenHelper(getActivity(), "laosDb", null).getWritableDatabase();
-                DaoSession daoSession = new DaoMaster(db).newSession();
-                dictionaryDao dicDao = daoSession.getDictionaryDao();
-                dicList = dicDao.loadAll();
-                idx = 0;
-            }else if(dicList.size()-1 == idx) {
-                idx = 0;
-            }else{
-                idx += 1;
-            }
-            dictionary dicEntry = dicList.get(idx);
+        if((wordsList.size()-1) <= idx) idx = 0;
+        words wordsInfo = wordsList.get(idx);
+        idx++;
 
-            text.append(dicEntry.getWordLao());
-            text.append("\n");
-            if(! (dicEntry.getYomi() == null)){
-                text.append(dicEntry.getYomi());
-            }
-            text.append("\n");
-            text.append(dicEntry.getWordJpn());
-            text.append("\n");
-
-        }finally{
-            //db.close();
+        text.append(wordsInfo.getLaotian()).append("\n");
+        if(! (wordsInfo.getKana() == null)){
+            text.append(wordsInfo.getKana()).append("\n");
         }
+        text.append(wordsInfo.getJapanese()).append("\n");
+
         TextView v = (TextView)getActivity().findViewById(R.id.textView);
         v.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "saysettha_ot.ttf"));
         v.setText(String.valueOf(text.toString()));
@@ -196,51 +144,17 @@ public class WordsFlashFragment extends Fragment {
 
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
                 String str = sharedPreferences.getString("Speed","");
-                int i = Integer.parseInt(str);
+
+                int i = 0;
+                try{
+                    i = Integer.parseInt(str);
+                }catch(NumberFormatException e){
+                    i = 3000;
+                }
 
                 WordsFlashFragment.this.update();//自身が発したメッセージを取得してupdateを実行
                 sendMessageDelayed(obtainMessage(0), i);//100ミリ秒後にメッセージを出力
             }
         }
     };
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            mListener = (OnFragmentInteractionListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
-    }
-
 }

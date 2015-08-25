@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.io.IOException;
+import java.util.List;
 
 
 public class CharacterActivity extends ActionBarActivity {
@@ -25,22 +26,17 @@ public class CharacterActivity extends ActionBarActivity {
 
     private  int serial = 0;
 
-    private static final String[] COLUMNS = { "character", "char_hatsuon","word", "word_hatsuon","meaning"};
-    SQLiteDatabase db;
-    private DataBaseHelper mDbHelper;
-
-    private Cursor findData(int id) {
-        Cursor cursor = db.query("characters", COLUMNS, "_id=" + id, null, null, null, "_id");
-        return cursor;
-    }
+    private List<characters> charList = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_character);
 
-        setDatabase();
-
+        SQLiteDatabase db = new DaoMaster.DevOpenHelper(this, "laosDb", null).getWritableDatabase();
+        DaoSession session = new DaoMaster(db).newSession();
+        charactersDao dao = session.getCharactersDao();
+        charList = dao.loadAll();
 
         Button start = (Button)findViewById(R.id.button5);
         Button stop = (Button)findViewById(R.id.button6);
@@ -57,18 +53,6 @@ public class CharacterActivity extends ActionBarActivity {
 
     }
 
-    private void setDatabase() {
-        mDbHelper = new DataBaseHelper(this);
-        try {
-            mDbHelper.createEmptyDataBase();
-            db = mDbHelper.openDataBase();
-        } catch (IOException ioe) {
-            throw new Error("Unable to create database");
-        } catch(SQLException sqle){
-            throw sqle;
-        }
-    }
-
     //一定時間後にupdateを呼ぶためのオブジェクト
     class LoopEngine extends Handler {
         private boolean isUpdate;
@@ -83,7 +67,7 @@ public class CharacterActivity extends ActionBarActivity {
         public void handleMessage(Message msg) {
             this.removeMessages(0);//既存のメッセージは削除
             if(this.isUpdate){
-                updateView();//自信が発したメッセージを取得してupdateを実行
+                updateView();//自身が発したメッセージを取得してupdateを実行
                 sendMessageDelayed(obtainMessage(0), 1000);//100ミリ秒後にメッセージを出力
             }
         }
@@ -94,35 +78,21 @@ public class CharacterActivity extends ActionBarActivity {
         //TextViewに表示
         StringBuilder text = new StringBuilder();
 
-        try{
-            serial++;
-            Cursor cursor = findData(serial);
-            boolean hasdata = cursor.moveToFirst();
-            if(hasdata){
-                cursor.moveToFirst();
-                text.append(cursor.getString(0));
-                text.append("\n");
-                text.append(cursor.getString(1));
-                text.append("\n");
-                text.append(cursor.getString(2));
-                text.append("\n");
-                text.append(cursor.getString(3));
-                text.append("\n");
-                text.append(cursor.getString(4));
-            }else{
-                serial = 0;
-            }
-        }finally{
-            //db.close();
-        }
+        if(charList.size()-1 < serial) serial = 0;
+        characters charInfo = charList.get(serial);
+        serial++;
+
+        text.append(charInfo.getCharacter()).append("\n");
+        text.append(charInfo.getChar_hatsuon()).append("\n");
+        text.append(charInfo.getWord()).append("\n");
+        text.append(charInfo.getWord_hatsuon()).append("\n");
+        text.append(charInfo.getMeaning()).append("\n");
+
         TextView v = (TextView)findViewById(R.id.textView2);
         v.setTypeface(Typeface.createFromAsset(getAssets(), "saysettha_ot.ttf"));
         v.setText(String.valueOf(text.toString()));
 
     }
-
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

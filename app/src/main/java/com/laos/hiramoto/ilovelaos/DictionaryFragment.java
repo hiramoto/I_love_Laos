@@ -1,6 +1,7 @@
 package com.laos.hiramoto.ilovelaos;
 
 import android.app.Activity;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,6 +20,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import de.greenrobot.daogenerator.Query;
 
 
 /**
@@ -32,6 +36,8 @@ import java.util.ArrayList;
 public class DictionaryFragment extends Fragment implements AdapterView.OnItemClickListener {
 
     private OnFragmentInteractionListener mListener;
+
+    private List<dictionary> dicList;
 
     public static DictionaryFragment newInstance() {
         DictionaryFragment fragment = new DictionaryFragment();
@@ -137,13 +143,32 @@ public class DictionaryFragment extends Fragment implements AdapterView.OnItemCl
     }
 
     private void showResult(){
+
         ArrayList<WordEntry> list = new ArrayList<>();
-        DictionaryAdapter adapter = new DictionaryAdapter(this.getActivity().getApplicationContext());
         String param = ((EditText)getActivity().findViewById(R.id.editText)).getText().toString();
-        list = adapter.findData(param);
-        adapter.setWordsList(list);
-        ((ListView)getActivity().findViewById(R.id.listView)).setAdapter(adapter);
 
+
+        ArrayList<dictionary> newList = new ArrayList<>();
+        //データがあって、前回と同じ文字をもっているならそこから絞り込み
+        //なければ新規取得。
+        if( dicList != null && dicList.size() > 0){
+            String firstWord = dicList.get(0).getYomi();
+            for (int i = 0; i < dicList.size(); i++) {
+                String yomi = dicList.get(i).getYomi();
+                if (yomi.contains(param)){
+                    newList.add(dicList.get(i));
+                }
+            }
+            dicList = newList;
+        }else {
+            SQLiteDatabase db = new DaoMaster.DevOpenHelper(getActivity(), "laosDb", null).getWritableDatabase();
+            DaoSession session = new DaoMaster(db).newSession();
+            dictionaryDao dao = session.getDictionaryDao();
+            de.greenrobot.dao.query.Query<dictionary> query = dao.queryBuilder().where(
+                    dictionaryDao.Properties.Yomi.like(param)
+                ).orderAsc(
+                    dictionaryDao.Properties.Yomi).build();
+            dicList = query.list();
+        }
     }
-
 }

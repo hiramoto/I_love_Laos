@@ -3,7 +3,7 @@ import de.greenrobot.daogenerator.Entity;
 import de.greenrobot.daogenerator.Schema;
 
 // DBのバージョン
-def dbVersion = 20
+def dbVersion = 29
 // 出力先のパッケージ名
 def daoOutputPackage = "com.laos.hiramoto.ilovelaos"
 // 出力先のディレクトリパス

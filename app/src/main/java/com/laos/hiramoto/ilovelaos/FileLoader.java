@@ -13,36 +13,52 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  * Created by Hiramoto on 2015/08/20.
  */
 public class FileLoader {
+    private static String fileNameChar = "characters.csv";
+    private static String fileNameDic = "dictionary.csv";
+    private static String fileNameWords = "words.csv";
 
-    static void loadData(Context ctx,Activity act) throws IOException,SQLException {
-        InputStream stream = null;
-        BufferedReader reader = null;
+
+    private static  String delimiter = ",";
+    private static Long i = 0L;
+    private static String line = "";
+
+    static DaoSession getDaoSession(Activity act){
+        SQLiteDatabase db = new DaoMaster.DevOpenHelper(act, "laosDb", null).getWritableDatabase();
+        return new DaoMaster(db).newSession();
+    }
+
+    static BufferedReader getBufferReader(Context ctx, String  fileName) throws IOException{
+        try
+        {
+            AssetManager asset = ctx.getResources().getAssets();
+            InputStream stream = asset.open(fileName);
+            return new BufferedReader(new InputStreamReader(stream));
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+
+    }
+
+    static void loadCharacterData(Context ctx, Activity act){
         List<characters> charsList = new ArrayList<>();
 
+        charactersDao charDao = getDaoSession(act).getCharactersDao();
+        Long count = charDao.count();
 
         try {
 
-            SQLiteDatabase db = new DaoMaster.DevOpenHelper(act, "laosDb", null).getWritableDatabase();
-            DaoSession daoSession = new DaoMaster(db).newSession();
-            daoSession.getCharactersDao().deleteAll();
-            daoSession.getDictionaryDao().deleteAll();
-            daoSession.getWordsDao().deleteAll();
+            BufferedReader reader = getBufferReader(ctx,fileNameChar);
 
-
-
-            AssetManager asset = ctx.getResources().getAssets();
-            stream = asset.open("characters.csv");
-
-            reader = new BufferedReader(new InputStreamReader(stream));
-
-            Long i = 0L;
-            for( String line = ""; (line = reader.readLine()) != null; i++ )
+            for(i = count== 0L ? 0L : count,line = ""; (line = reader.readLine()) != null; i++ )
             {
-                String [] result = line.split(",");
+                String [] result = line.split(delimiter);
                 characters chars = new characters(i
                         ,result[0]
                         ,Integer.parseInt(result[1])
@@ -61,24 +77,22 @@ public class FileLoader {
             e.printStackTrace();
         }
 
-        SQLiteDatabase db = new DaoMaster.DevOpenHelper(act, "laosDb", null).getWritableDatabase();
-        DaoSession daoSession = new DaoMaster(db).newSession();
-
-        charactersDao charDao = daoSession.getCharactersDao();
         charDao.insertInTx(charsList);
 
+    }
 
+    static void loadDictionaryData(Context ctx,Activity act){
         List<dictionary> dicList = new ArrayList<>();
+
+        dictionaryDao dicDao = getDaoSession(act).getDictionaryDao();
+        Long count = dicDao.count();
         try {
-            AssetManager asset = ctx.getResources().getAssets();
-            stream = asset.open("dictionary.csv");
 
-            reader = new BufferedReader(new InputStreamReader(stream));
+            BufferedReader reader = getBufferReader(ctx,fileNameDic);
 
-            Long i = 0L;
-            for( String line = ""; (line = reader.readLine()) != null; i++)
+            for(i = count== 0L ? 0L : count,line = ""; (line = reader.readLine()) != null; i++ )
             {
-                String [] result = line.split(",");
+                String [] result = line.split(delimiter);
                 dictionary dic = new dictionary(i
                         ,result[0]
                         ,result[1]
@@ -92,23 +106,23 @@ public class FileLoader {
             e.printStackTrace();
         }
 
-        db = new DaoMaster.DevOpenHelper(act, "laosDb", null).getWritableDatabase();
-        daoSession = new DaoMaster(db).newSession();
-        dictionaryDao dicDao = daoSession.getDictionaryDao();
         dicDao.insertInTx(dicList);
 
+    }
 
-        List<words> wordsList = new ArrayList<words>();
+    static void loadWordData(Context ctx,Activity act){
+        List<words> wordsList = new ArrayList<>();
+
+        wordsDao wordsDao = getDaoSession(act).getWordsDao();
+        Long count = wordsDao.count();
+
         try {
-            AssetManager asset = ctx.getResources().getAssets();
-            stream = asset.open("words.csv");
 
-            reader = new BufferedReader(new InputStreamReader(stream));
+            BufferedReader reader = getBufferReader(ctx,fileNameWords);
 
-            Long i = 0L;
-            for( String line = ""; (line = reader.readLine()) != null;i++ )
+            for(i = count== 0L ? 0L : count,line = ""; (line = reader.readLine()) != null; i++ )
             {
-                String [] result = line.split(",");
+                String [] result = line.split(delimiter);
                 words words = new words(i
                         ,result[0]
                         ,result[1]
@@ -125,10 +139,24 @@ public class FileLoader {
             e.printStackTrace();
         }
 
-        db = new DaoMaster.DevOpenHelper(act, "laosDb", null).getWritableDatabase();
-        daoSession = new DaoMaster(db).newSession();
-        wordsDao wordsDao = daoSession.getWordsDao();
         wordsDao.insertInTx(wordsList);
+    }
+
+    static void loadData(Context ctx,Activity act) throws IOException,SQLException {
+
+        //Upgradeの際にデータはすべて消されるため、件数チェックで確認
+        //wordsはカスタマイズできるようにする予定なので、件数チェックから外す
+        SQLiteDatabase db = new DaoMaster.DevOpenHelper(act, "laosDb", null).getWritableDatabase();
+        DaoSession daoSession = new DaoMaster(db).newSession();
+
+        if(daoSession.getCharactersDao().count() !=0
+                || daoSession.getDictionaryDao().count() != 0){
+            return;
+        }
+
+        loadCharacterData(ctx,act);
+        loadDictionaryData(ctx,act);
+        loadWordData(ctx,act);
 
     }
 }

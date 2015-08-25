@@ -1,40 +1,39 @@
 package com.laos.hiramoto.ilovelaos;
 
+import android.content.ContentProviderClient;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
 
 
-public class WordsFlashActivity extends ActionBarActivity implements WordsFragment.OnFragmentInteractionListener {
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
+public class WordsImportActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_words_flash);
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new WordsFlashFragment())
-                    .commit();
-        }
+        setContentView(R.layout.activity_words_import);
+
+        super.onCreate(savedInstanceState);
+
+        // Get the intent that started this activity
+        Intent intent = getIntent();
+        Uri data = intent.getData();
+
+        // 形式チェック
+
+        // インポート形式（上書きOR）
+
+        FileLoader.loadWordData(getApplicationContext(),this);
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_words_flash, menu);
+        getMenuInflater().inflate(R.menu.menu_words_import, menu);
         return true;
     }
 
@@ -52,5 +51,4 @@ public class WordsFlashActivity extends ActionBarActivity implements WordsFragme
 
         return super.onOptionsItemSelected(item);
     }
-
 }
