@@ -35,10 +35,6 @@
             <intent-filter>
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT"/>
-                <action android:name="android.intent.action.OPEN_DOCUMENT" />
-                <action android:name="android.intent.action.SEND" />
-                <action android:name="android.intent.action.SEND_MULTIPLE" />
-                <action android:name="android.intent.action.VIEW"/>
                 <data android:mimeType="text/csv" />
             </intent-filter>
         </activity>
