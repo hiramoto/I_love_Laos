@@ -1,12 +1,21 @@
 package com.laos.hiramoto.ilovelaos;
 
-import android.content.ContentProviderClient;
-import android.content.Intent;
-import android.net.Uri;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.List;
+
+import de.greenrobot.daogenerator.DaoUtil;
 
 
 public class WordsImportActivity extends ActionBarActivity {
@@ -16,19 +25,80 @@ public class WordsImportActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_words_import);
 
-        super.onCreate(savedInstanceState);
+        AlertDialog.Builder alertDialog=new AlertDialog.Builder(this);
 
-        // Get the intent that started this activity
-        Intent intent = getIntent();
-        Uri data = intent.getData();
+        // ダイアログの設定
+        alertDialog.setTitle("I Love Laos 単語 インポート");      //タイトル設定
+        alertDialog.setMessage("単語リストを置き換えますか？");  //内容(メッセージ)設定
 
-        // 形式チェック
+        // OKボタンの設定
+        alertDialog.setPositiveButton("置き換え", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // OKボタン押下時の処理
+                String result = isImportSucceed(true) ? "取込成功しました。":"取込失敗しました。";
+                Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
+            }
+        });
 
-        // インポート形式（上書きOR）
+        // SKIPボタンの設定
+        alertDialog.setNeutralButton("追加", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // SKIPボタン押下時の処理
+                String result = isImportSucceed(false) ? "取込成功しました。":"取込失敗しました。";
+                Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
+            }
+        });
 
-        FileLoader.loadWordData(getApplicationContext(),this);
+        // NGボタンの設定
+        alertDialog.setNegativeButton("中止", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // NGボタン押下時の処理
+                Toast.makeText(getApplicationContext(), "取込処理を中止しました。", Toast.LENGTH_LONG).show();
+            }
+        });
+        // ダイアログの作成と描画
+        alertDialog.show();
     }
 
+
+    private boolean isImportSucceed(Boolean isAppend){
+
+        List<words> wordsList;
+
+        // データ取得
+        try{
+            SQLiteDatabase db = new DaoMaster.DevOpenHelper(this, "laosDb", null).getWritableDatabase();
+            Long count = (new DaoMaster(db).newSession()).getWordsDao().count();
+
+            // 形式チェック
+            InputStream stream = getContentResolver().openInputStream(getIntent().getData());
+            BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+
+            wordsList = FileLoader.getWordList(reader, count);
+
+        }catch(IOException e){
+            Toast.makeText(this, "ファイルの読み込みに失敗しました。", Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        // データ投入
+        SQLiteDatabase db = new DaoMaster.DevOpenHelper(this, "laosDb", null).getWritableDatabase();
+        db.beginTransaction();
+        try{
+            wordsDao wordsDao = (new DaoMaster(db).newSession()).getWordsDao();
+            // 上書きの場合は、全削除
+            if(!isAppend) wordsDao.deleteAll();
+            wordsDao.insertInTx(wordsList);
+            db.setTransactionSuccessful();
+
+        }catch (Exception e){
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+            return  false;
+        }finally {
+            db.endTransaction();
+        }
+        return true;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

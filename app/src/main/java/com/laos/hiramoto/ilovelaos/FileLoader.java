@@ -110,16 +110,15 @@ public class FileLoader {
 
     }
 
-    static void loadWordData(Context ctx,Activity act){
+    /***
+     *
+     * @param reader
+     * @param count startCount
+     * @return
+     */
+    static List<words> getWordList(BufferedReader reader, Long count){
         List<words> wordsList = new ArrayList<>();
-
-        wordsDao wordsDao = getDaoSession(act).getWordsDao();
-        Long count = wordsDao.count();
-
         try {
-
-            BufferedReader reader = getBufferReader(ctx,fileNameWords);
-
             for(i = count== 0L ? 0L : count,line = ""; (line = reader.readLine()) != null; i++ )
             {
                 String [] result = line.split(delimiter);
@@ -133,8 +132,22 @@ public class FileLoader {
                 //TODO:最後のIntegerの利用方法を検討する。
                 wordsList.add(words);
             }
-            reader.close();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return wordsList;
+    }
 
+    static void loadWordData(Context ctx,Activity act){
+        List<words> wordsList = new ArrayList<>();
+
+        wordsDao wordsDao = getDaoSession(act).getWordsDao();
+        Long count = wordsDao.count();
+
+        try {
+            BufferedReader reader = getBufferReader(ctx,fileNameWords);
+            wordsList = getWordList(reader,count);
+            reader.close();
         }catch (IOException e) {
             e.printStackTrace();
         }

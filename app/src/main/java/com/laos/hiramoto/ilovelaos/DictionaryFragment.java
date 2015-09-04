@@ -8,21 +8,16 @@ import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import de.greenrobot.daogenerator.Query;
 
 
 /**
@@ -38,6 +33,7 @@ public class DictionaryFragment extends Fragment implements AdapterView.OnItemCl
     private OnFragmentInteractionListener mListener;
 
     private List<dictionary> dicList;
+    private String lastWords = "";
 
     public static DictionaryFragment newInstance() {
         DictionaryFragment fragment = new DictionaryFragment();
@@ -144,15 +140,15 @@ public class DictionaryFragment extends Fragment implements AdapterView.OnItemCl
 
     private void showResult(){
 
-        ArrayList<WordEntry> list = new ArrayList<>();
         String param = ((EditText)getActivity().findViewById(R.id.editText)).getText().toString();
-
 
         ArrayList<dictionary> newList = new ArrayList<>();
         //データがあって、前回と同じ文字をもっているならそこから絞り込み
         //なければ新規取得。
-        if( dicList != null && dicList.size() > 0){
-            String firstWord = dicList.get(0).getYomi();
+        if( param.startsWith(lastWords)
+                && dicList != null
+                && dicList.size() > 0){
+
             for (int i = 0; i < dicList.size(); i++) {
                 String yomi = dicList.get(i).getYomi();
                 if (yomi.contains(param)){
@@ -160,15 +156,25 @@ public class DictionaryFragment extends Fragment implements AdapterView.OnItemCl
                 }
             }
             dicList = newList;
-        }else {
-            SQLiteDatabase db = new DaoMaster.DevOpenHelper(getActivity(), "laosDb", null).getWritableDatabase();
-            DaoSession session = new DaoMaster(db).newSession();
-            dictionaryDao dao = session.getDictionaryDao();
-            de.greenrobot.dao.query.Query<dictionary> query = dao.queryBuilder().where(
-                    dictionaryDao.Properties.Yomi.like(param)
-                ).orderAsc(
-                    dictionaryDao.Properties.Yomi).build();
-            dicList = query.list();
+
+            if (dicList.size() != 0) return;
+
         }
+
+        SQLiteDatabase db = new DaoMaster.DevOpenHelper(getActivity(), "laosDb", null).getWritableDatabase();
+        DaoSession session = new DaoMaster(db).newSession();
+        dictionaryDao dao = session.getDictionaryDao();
+        de.greenrobot.dao.query.Query<dictionary> query = dao.queryBuilder().where(
+                dictionaryDao.Properties.Yomi.like(param)
+        ).orderAsc(
+                dictionaryDao.Properties.Yomi).build();
+        dicList = query.list();
+
+        lastWords = param;
+
+        DictionaryAdapter adapter = new DictionaryAdapter(this.getActivity().getApplicationContext());
+        adapter.setWordsList(dicList);
+        ((ListView)getActivity().findViewById(R.id.listView)).setAdapter(adapter);
+
     }
 }
