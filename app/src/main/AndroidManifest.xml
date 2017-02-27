@@ -1,45 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.laos.hiramoto.ilovelaos" >
+    package="com.laos.hiramoto.ilovelaos">
 
     <application
-        android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:name=".WordsFlashActivity"
+            android:label="@string/title_activity_words_flash"></activity>
+        <activity
+            android:name=".CharacterActivity"
+            android:label="@string/title_activity_character"></activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"></activity>
+        <activity
+            android:name=".WordsImportActivity"
+            android:enabled="true"
+            android:exported="true"
+            android:label="@string/app_name">
+            <intent-filter>
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <action android:name="android.intent.action.OPEN_DOCUMENT" />
+                <action android:name="android.intent.action.SEND" />
+                <action android:name="android.intent.action.SEND_MULTIPLE" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <data android:mimeType="text/csv" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".TopActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".WordsFlashActivity"
-            android:label="@string/title_activity_words_flash" >
-        </activity>
-        <activity
-            android:name=".CharacterActivity"
-            android:label="@string/title_activity_character" >
-        </activity>
-        <activity
-            android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings" >
-        </activity>
-        <activity
-            android:name=".WordsImportActivity"
-            android:label="@string/app_name"
-            android:enabled="true" android:exported="true">
-            <intent-filter>
-                <category android:name="android.intent.category.BROWSABLE" />
-                <category android:name="android.intent.category.DEFAULT"/>
-                <action android:name="android.intent.action.OPEN_DOCUMENT" />
-                <action android:name="android.intent.action.SEND" />
-                <action android:name="android.intent.action.SEND_MULTIPLE" />
-                <action android:name="android.intent.action.VIEW"/>
-                <data android:mimeType="text/csv" />
             </intent-filter>
         </activity>
     </application>

@@ -1,6 +1,7 @@
 package com.laos.hiramoto.ilovelaos;
 
 import android.database.Cursor;
+import android.database.DataSetObserver;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
@@ -8,90 +9,60 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.AdapterViewFlipper;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.ViewFlipper;
 
 import java.io.IOException;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class CharacterActivity extends ActionBarActivity {
 
-    private LoopEngine loopEngine = new LoopEngine();
-
-    private  int serial = 0;
-
-    private List<characters> charList = null;
+public class CharacterActivity extends AppCompatActivity {
+    @BindView(R.id.adapterFlipper)AdapterViewFlipper adapterFlipper;
+    private boolean isAuto = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_character);
 
+        ButterKnife.bind(this);
+
         SQLiteDatabase db = new DaoMaster.DevOpenHelper(this, "laosDb", null).getWritableDatabase();
         DaoSession session = new DaoMaster(db).newSession();
         charactersDao dao = session.getCharactersDao();
-        charList = dao.loadAll();
-
-        Button start = (Button)findViewById(R.id.button5);
-        Button stop = (Button)findViewById(R.id.button6);
-        start.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                loopEngine.start();
-            }
-        });
-        stop.setOnClickListener(new View.OnClickListener(){
-            public  void  onClick(View v){
-                loopEngine.stop();
-            }
-        });
+        adapterFlipper.setAdapter(new CharacterAdapter(this,dao.loadAll()));
+        adapterFlipper.setAutoStart(true);
+        adapterFlipper.setFlipInterval(1000);
 
     }
 
-    //一定時間後にupdateを呼ぶためのオブジェクト
-    class LoopEngine extends Handler {
-        private boolean isUpdate;
-        public void start(){
-            this.isUpdate = true;
-            handleMessage(new Message());
+    @OnClick(R.id.switchButton)
+    public  void onSwitch(ImageButton switchButton){
+
+        if(isAuto){
+            adapterFlipper.setAutoStart(false);
+            adapterFlipper.stopFlipping();
+            switchButton.setImageDrawable(getDrawable(R.drawable.manual));
+        }else{
+            adapterFlipper.setAutoStart(true);
+            adapterFlipper.startFlipping();
+            switchButton.setImageDrawable(getDrawable(R.drawable.auto));
         }
-        public void stop(){
-            this.isUpdate = false;
-        }
-        @Override
-        public void handleMessage(Message msg) {
-            this.removeMessages(0);//既存のメッセージは削除
-            if(this.isUpdate){
-                updateView();//自身が発したメッセージを取得してupdateを実行
-                sendMessageDelayed(obtainMessage(0), 1000);//100ミリ秒後にメッセージを出力
-            }
-        }
-    };
-
-    private void updateView() {
-
-        //TextViewに表示
-        StringBuilder text = new StringBuilder();
-
-        if(charList.size()-1 < serial) serial = 0;
-        characters charInfo = charList.get(serial);
-        serial++;
-
-        text.append(charInfo.getCharacter()).append("\n");
-        text.append(charInfo.getChar_hatsuon()).append("\n");
-        text.append(charInfo.getWord()).append("\n");
-        text.append(charInfo.getWord_hatsuon()).append("\n");
-        text.append(charInfo.getMeaning()).append("\n");
-
-        TextView v = (TextView)findViewById(R.id.textView2);
-        v.setTypeface(Typeface.createFromAsset(getAssets(), "saysettha_ot.ttf"));
-        v.setText(String.valueOf(text.toString()));
-
+        isAuto = !isAuto;
     }
 
     @Override

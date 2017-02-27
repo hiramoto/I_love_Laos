@@ -2,21 +2,16 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" tools:context="com.laos.hiramoto.ilovelaos.DictionaryFragment"
     android:orientation="vertical">
-
-
-
     <!-- TODO: Update blank fragment layout -->
 
-    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:text="@string/blank_title_2"/>
-
     <EditText
-        android:layout_width="112dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/editText"
         android:layout_gravity="top"
         android:inputType="text"
-        android:editable="true" />
+        android:hint="@string/blank_title_2"
+        android:translationZ="30dp"/>
 
     <ListView
         android:layout_width="match_parent"
