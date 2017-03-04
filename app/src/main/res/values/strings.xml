@@ -2,9 +2,9 @@
 <resources>
 
     <string name="app_name">I love Laos</string>
-    <string name="title_section1">WORDS</string>
-    <string name="title_section2">DICTIONARY</string>
-    <string name="title_section3">GRAMMAR</string>
+    <string name="title_section1">Study</string>
+    <string name="title_section2">Practice</string>
+    <string name="title_section3">Dictionary</string>
     <string name="msg_import_success">words imported</string>
     <string name="action_settings">Settings</string>
     <string name="SECTION_01">TOP</string>
