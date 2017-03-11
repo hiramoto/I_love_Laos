@@ -2,6 +2,7 @@ package com.laos.hiramoto.ilovelaos;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -42,11 +43,13 @@ public class CharacterActivity extends AppCompatActivity {
         if(isAuto){
             adapterFlipper.setAutoStart(false);
             adapterFlipper.stopFlipping();
-            switchButton.setImageDrawable(getDrawable(R.drawable.manual));
+            switchButton.setImageDrawable(
+                    ContextCompat.getDrawable(getApplicationContext(),R.drawable.manual));
         }else{
             adapterFlipper.setAutoStart(true);
             adapterFlipper.startFlipping();
-            switchButton.setImageDrawable(getDrawable(R.drawable.auto));
+            switchButton.setImageDrawable(
+                    ContextCompat.getDrawable(getApplicationContext(),R.drawable.auto));
         }
         isAuto = !isAuto;
     }

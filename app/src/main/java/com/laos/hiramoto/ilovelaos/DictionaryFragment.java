@@ -1,6 +1,7 @@
 package com.laos.hiramoto.ilovelaos;
 
 import android.app.Activity;
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
@@ -33,8 +34,6 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class DictionaryFragment extends Fragment implements AdapterView.OnItemClickListener {
-
-    private OnFragmentInteractionListener mListener;
 
     private List<Dictionary> dicList;
     private String lastWords = "";
@@ -86,28 +85,14 @@ public class DictionaryFragment extends Fragment implements AdapterView.OnItemCl
         return v;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            mListener = (OnFragmentInteractionListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+    public void onAttach(Context context) {
+        super.onAttach(context);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
     @Override
@@ -145,24 +130,24 @@ public class DictionaryFragment extends Fragment implements AdapterView.OnItemCl
 
         String param = ((EditText)getActivity().findViewById(R.id.editText)).getText().toString();
 
-        ArrayList<Dictionary> newList = new ArrayList<>();
-        //データがあって、前回と同じ文字をもっているならそこから絞り込み
-        //なければ新規取得。
-        if( param.startsWith(lastWords)
-                && dicList != null
-                && dicList.size() > 0){
-
-            for (int i = 0; i < dicList.size(); i++) {
-                String yomi = dicList.get(i).getYomi();
-                if (yomi.contains(param)){
-                    newList.add(dicList.get(i));
-                }
-            }
-            dicList = newList;
-
-            if (dicList.size() != 0) return;
-
-        }
+//        ArrayList<Dictionary> newList = new ArrayList<>();
+//        //データがあって、前回と同じ文字をもっているならそこから絞り込み
+//        //なければ新規取得。
+//        if( param.startsWith(lastWords)
+//                && dicList != null
+//                && dicList.size() > 0){
+//
+//            for (int i = 0; i < dicList.size(); i++) {
+//                String yomi = dicList.get(i).getYomi();
+//                if (yomi.contains(param)){
+//                    newList.add(dicList.get(i));
+//                }
+//            }
+//            dicList = newList;
+//
+//            if (dicList.size() != 0) return;
+//
+//        }
 
         SQLiteDatabase db = new DaoMaster.DevOpenHelper(getActivity(), "laosDb", null).getWritableDatabase();
         DaoSession session = new DaoMaster(db).newSession();
@@ -173,7 +158,7 @@ public class DictionaryFragment extends Fragment implements AdapterView.OnItemCl
                 DictionaryDao.Properties.Yomi).build();
         dicList = query.list();
 
-        lastWords = param;
+        //lastWords = param;
 
         DictionaryAdapter adapter = new DictionaryAdapter(this.getActivity().getApplicationContext());
         adapter.setWordsList(dicList);

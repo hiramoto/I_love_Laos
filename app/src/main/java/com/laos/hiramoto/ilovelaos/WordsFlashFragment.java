@@ -1,18 +1,14 @@
 package com.laos.hiramoto.ilovelaos;
 
-import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
+import android.widget.AdapterViewFlipper;
+import android.widget.ImageButton;
 
 import com.laos.hiramoto.ilovelaos.model.DaoMaster;
 import com.laos.hiramoto.ilovelaos.model.DaoSession;
@@ -21,13 +17,17 @@ import com.laos.hiramoto.ilovelaos.model.WordDao;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 
 public class WordsFlashFragment extends Fragment {
 
-    private LoopEngine loopEngine = new LoopEngine();
+    @BindView(R.id.adapterFlipper2)AdapterViewFlipper adapterFlipper;
+    private boolean isAuto = true;
 
     private List<Word> wordsList = null;
-    private int idx = 0;
 
     /**
      * Use this factory method to create a new instance of
@@ -50,10 +50,6 @@ public class WordsFlashFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SQLiteDatabase db = new DaoMaster.DevOpenHelper(getActivity(), "laosDb", null).getWritableDatabase();
-        DaoSession session = new DaoMaster(db).newSession();
-        WordDao dao = session.getWordDao();
-        wordsList = dao.loadAll();
 
     }
 
@@ -61,81 +57,33 @@ public class WordsFlashFragment extends Fragment {
     public  View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View v = inflater.inflate(R.layout.fragment_words_flash,container,false);
 
-        Button start = (Button)v.findViewById(R.id.button);
-        Button stop = (Button)v.findViewById(R.id.button2);
-        Button next = (Button)v.findViewById(R.id.button7);
+        SQLiteDatabase db = new DaoMaster.DevOpenHelper(getActivity(), "laosDb", null).getWritableDatabase();
+        DaoSession session = new DaoMaster(db).newSession();
+        WordDao dao = session.getWordDao();
 
-        start.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                loopEngine.start();
-            }
-        });
-
-        stop.setOnClickListener(new View.OnClickListener(){
-            public  void  onClick(View v){
-                loopEngine.stop();
-            }
-        });
-
-        next.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v){
-                update();
-            }
-        });
+        ButterKnife.bind(this, v);
+        adapterFlipper.setAdapter(new WordAdapter(getActivity(),dao.loadAll()));
+        wordsList = dao.loadAll();
+        adapterFlipper.setAutoStart(true);
+        adapterFlipper.setFlipInterval(1000);
 
         return v;
-
     }
 
-    public void update() {
+    @OnClick(R.id.switchButton2)
+    public  void onSwitch(ImageButton switchButton){
 
-        //TextViewに表示
-        StringBuilder text = new StringBuilder();
-
-        if((wordsList.size()-1) <= idx) idx = 0;
-        Word wordsInfo = wordsList.get(idx);
-        idx++;
-
-        text.append(wordsInfo.getLaotian()).append("\n");
-        if(! (wordsInfo.getKana() == null)){
-            text.append(wordsInfo.getKana()).append("\n");
+        if(isAuto){
+            adapterFlipper.setAutoStart(false);
+            adapterFlipper.stopFlipping();
+            switchButton.setImageDrawable(
+                    ContextCompat.getDrawable(getActivity(),R.drawable.manual));
+        }else{
+            adapterFlipper.setAutoStart(true);
+            adapterFlipper.startFlipping();
+            switchButton.setImageDrawable(
+                    ContextCompat.getDrawable(getActivity(),R.drawable.auto));
         }
-        text.append(wordsInfo.getJapanese()).append("\n");
-
-        TextView v = (TextView)getActivity().findViewById(R.id.textView);
-        v.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "saysettha_ot.ttf"));
-        v.setText(String.valueOf(text.toString()));
-
-    }
-
-    //一定時間後にupdateを呼ぶためのオブジェクト
-    class LoopEngine extends Handler {
-        private boolean isUpdate;
-        public void start(){
-            this.isUpdate = true;
-            handleMessage(new Message());
-        }
-        public void stop(){
-            this.isUpdate = false;
-        }
-        @Override
-        public void handleMessage(Message msg) {
-            this.removeMessages(0);//既存のメッセージは削除
-            if(this.isUpdate){
-
-                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-                String str = sharedPreferences.getString("Speed","");
-
-                int i;
-                try{
-                    i = Integer.parseInt(str);
-                }catch(NumberFormatException e){
-                    i = 3000;
-                }
-
-                WordsFlashFragment.this.update();//自身が発したメッセージを取得してupdateを実行
-                sendMessageDelayed(obtainMessage(0), i);//100ミリ秒後にメッセージを出力
-            }
-        }
+        isAuto = !isAuto;
     }
 }

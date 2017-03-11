@@ -1,6 +1,7 @@
 package com.laos.hiramoto.ilovelaos;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
@@ -43,15 +44,15 @@ public class TopFragment extends Fragment {
             FileLoader.loadData(getActivity().getApplicationContext(),getActivity());
         }catch (IOException ioe)
         {
-            //TODO:トーストを挙げて、処理終了
+            Toast.makeText(getActivity().getApplicationContext(),ioe.toString(),Toast.LENGTH_LONG).show();
         }catch(SQLException sqe){
-            //TODO:トーストを挙げて、処理終了
+            Toast.makeText(getActivity().getApplicationContext(),sqe.toString(),Toast.LENGTH_LONG).show();
         }
     }
 
     @Override
     public  View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        View v = inflater.inflate(R.layout.fragment_words,container,false);
+        View v = inflater.inflate(R.layout.fragment_top,container,false);
         Button chars = (Button)v.findViewById(R.id.button3);
         chars.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,8 +81,8 @@ public class TopFragment extends Fragment {
 
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
     }
 
     @Override
