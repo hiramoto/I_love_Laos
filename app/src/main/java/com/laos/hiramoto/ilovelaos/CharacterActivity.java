@@ -1,29 +1,16 @@
 package com.laos.hiramoto.ilovelaos;
 
-import android.database.Cursor;
-import android.database.DataSetObserver;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Typeface;
-import android.os.Handler;
-import android.os.Message;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterViewFlipper;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.TextView;
-import android.widget.ViewFlipper;
 
-import java.io.IOException;
-import java.util.List;
+import com.laos.hiramoto.ilovelaos.model.DaoMaster;
+import com.laos.hiramoto.ilovelaos.model.DaoSession;
+import com.laos.hiramoto.ilovelaos.model.CharacterDao;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,10 +27,9 @@ public class CharacterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_character);
 
         ButterKnife.bind(this);
-
         SQLiteDatabase db = new DaoMaster.DevOpenHelper(this, "laosDb", null).getWritableDatabase();
         DaoSession session = new DaoMaster(db).newSession();
-        charactersDao dao = session.getCharactersDao();
+        CharacterDao dao = session.getCharacterDao();
         adapterFlipper.setAdapter(new CharacterAdapter(this,dao.loadAll()));
         adapterFlipper.setAutoStart(true);
         adapterFlipper.setFlipInterval(1000);

@@ -5,9 +5,14 @@ import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import com.laos.hiramoto.ilovelaos.model.DaoMaster;
+import com.laos.hiramoto.ilovelaos.model.Word;
+import com.laos.hiramoto.ilovelaos.model.WordDao;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,10 +20,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
 
-import de.greenrobot.daogenerator.DaoUtil;
 
-
-public class WordsImportActivity extends ActionBarActivity {
+public class WordsImportActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,12 +66,12 @@ public class WordsImportActivity extends ActionBarActivity {
 
     private boolean isImportSucceed(Boolean isAppend){
 
-        List<words> wordsList;
+        List<Word> wordsList;
 
         // データ取得
         try{
             SQLiteDatabase db = new DaoMaster.DevOpenHelper(this, "laosDb", null).getWritableDatabase();
-            Long count = (new DaoMaster(db).newSession()).getWordsDao().count();
+            Long count = (new DaoMaster(db).newSession()).getWordDao().count();
 
             // 形式チェック
             InputStream stream = getContentResolver().openInputStream(getIntent().getData());
@@ -85,7 +88,7 @@ public class WordsImportActivity extends ActionBarActivity {
         SQLiteDatabase db = new DaoMaster.DevOpenHelper(this, "laosDb", null).getWritableDatabase();
         db.beginTransaction();
         try{
-            wordsDao wordsDao = (new DaoMaster(db).newSession()).getWordsDao();
+            WordDao wordsDao = (new DaoMaster(db).newSession()).getWordDao();
             // 上書きの場合は、全削除
             if(!isAppend) wordsDao.deleteAll();
             wordsDao.insertInTx(wordsList);

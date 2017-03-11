@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.laos.hiramoto.ilovelaos.model.Dictionary;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,16 +18,16 @@ import java.util.List;
  */
 public class DictionaryAdapter extends BaseAdapter {
 
-    Context context;
-    LayoutInflater layoutInflater = null;
-    List<dictionary> wordsList = new ArrayList<>();
+    private Context context;
+    private LayoutInflater layoutInflater = null;
+    private List<Dictionary> wordsList = new ArrayList<>();
 
-    public DictionaryAdapter(Context context) {
+    protected DictionaryAdapter(Context context) {
         this.context = context;
         this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-    public void setWordsList(List<dictionary> wordsList) {
+    protected void setWordsList(List<Dictionary> wordsList) {
         this.wordsList = wordsList;
     }
 

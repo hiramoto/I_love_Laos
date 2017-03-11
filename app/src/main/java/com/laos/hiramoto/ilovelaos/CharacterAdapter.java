@@ -1,33 +1,32 @@
 package com.laos.hiramoto.ilovelaos;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
+import com.laos.hiramoto.ilovelaos.model.Character;
 
 /**
  * Created by Hiramoto on 2015/08/29.
  */
 public class CharacterAdapter extends BaseAdapter {
 
-    Context context;
-    LayoutInflater layoutInflater = null;
-    List<characters> charList = new ArrayList<>();
+    private Context context;
+    private LayoutInflater layoutInflater = null;
+    private List<Character> charList = new ArrayList<>();
 
-    public CharacterAdapter(Context context) {
+    private CharacterAdapter(Context context) {
         this.context = context;
         this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-    public CharacterAdapter(Context context,List<characters> charList) {
+    protected CharacterAdapter(Context context,List<Character> charList) {
         this(context);
         this.charList = charList;
     }

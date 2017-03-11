@@ -5,6 +5,15 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.laos.hiramoto.ilovelaos.model.Character;
+import com.laos.hiramoto.ilovelaos.model.CharacterDao;
+import com.laos.hiramoto.ilovelaos.model.DaoMaster;
+import com.laos.hiramoto.ilovelaos.model.DaoSession;
+import com.laos.hiramoto.ilovelaos.model.Dictionary;
+import com.laos.hiramoto.ilovelaos.model.DictionaryDao;
+import com.laos.hiramoto.ilovelaos.model.Word;
+import com.laos.hiramoto.ilovelaos.model.WordDao;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,12 +36,12 @@ public class FileLoader {
     private static Long i = 0L;
     private static String line = "";
 
-    static DaoSession getDaoSession(Activity act){
+    private static DaoSession getDaoSession(Activity act){
         SQLiteDatabase db = new DaoMaster.DevOpenHelper(act, "laosDb", null).getWritableDatabase();
         return new DaoMaster(db).newSession();
     }
 
-    static BufferedReader getBufferReader(Context ctx, String  fileName) throws IOException{
+    private static BufferedReader getBufferReader(Context ctx, String  fileName) throws IOException{
         try
         {
             AssetManager asset = ctx.getResources().getAssets();
@@ -46,10 +55,10 @@ public class FileLoader {
 
     }
 
-    static void loadCharacterData(Context ctx, Activity act){
-        List<characters> charsList = new ArrayList<>();
+    private static void loadCharacterData(Context ctx, Activity act){
+        List<Character> charsList = new ArrayList<>();
 
-        charactersDao charDao = getDaoSession(act).getCharactersDao();
+        CharacterDao charDao = getDaoSession(act).getCharacterDao();
         Long count = charDao.count();
 
         try {
@@ -59,7 +68,7 @@ public class FileLoader {
             for(i = count== 0L ? 0L : count,line = ""; (line = reader.readLine()) != null; i++ )
             {
                 String [] result = line.split(delimiter);
-                characters chars = new characters(i
+                Character chars = new Character(i
                         ,result[0]
                         ,Integer.parseInt(result[1])
                         ,result[2]
@@ -81,10 +90,10 @@ public class FileLoader {
 
     }
 
-    static void loadDictionaryData(Context ctx,Activity act){
-        List<dictionary> dicList = new ArrayList<>();
+    private static void loadDictionaryData(Context ctx,Activity act){
+        List<Dictionary> dicList = new ArrayList<>();
 
-        dictionaryDao dicDao = getDaoSession(act).getDictionaryDao();
+        DictionaryDao dicDao = getDaoSession(act).getDictionaryDao();
         Long count = dicDao.count();
         try {
 
@@ -93,7 +102,7 @@ public class FileLoader {
             for(i = count== 0L ? 0L : count,line = ""; (line = reader.readLine()) != null; i++ )
             {
                 String [] result = line.split(delimiter);
-                dictionary dic = new dictionary(i
+                Dictionary dic = new Dictionary(i
                         ,result[0]
                         ,result[1]
                         ,result[2]
@@ -114,15 +123,15 @@ public class FileLoader {
      *
      * @param reader
      * @param count startCount
-     * @return
+     * @return List<Word>
      */
-    static List<words> getWordList(BufferedReader reader, Long count){
-        List<words> wordsList = new ArrayList<>();
+    static List<Word> getWordList(BufferedReader reader, Long count){
+        List<Word> wordsList = new ArrayList<>();
         try {
             for(i = count== 0L ? 0L : count,line = ""; (line = reader.readLine()) != null; i++ )
             {
                 String [] result = line.split(delimiter);
-                words words = new words(i
+                Word words = new Word(i
                         ,result[0]
                         ,result[1]
                         ,result[2]
@@ -138,10 +147,10 @@ public class FileLoader {
         return wordsList;
     }
 
-    static void loadWordData(Context ctx,Activity act){
-        List<words> wordsList = new ArrayList<>();
+    private static void loadWordData(Context ctx,Activity act){
+        List<Word> wordsList = new ArrayList<>();
 
-        wordsDao wordsDao = getDaoSession(act).getWordsDao();
+        WordDao wordsDao = getDaoSession(act).getWordDao();
         Long count = wordsDao.count();
 
         try {
@@ -162,7 +171,7 @@ public class FileLoader {
         SQLiteDatabase db = new DaoMaster.DevOpenHelper(act, "laosDb", null).getWritableDatabase();
         DaoSession daoSession = new DaoMaster(db).newSession();
 
-        if(daoSession.getCharactersDao().count() !=0
+        if(daoSession.getCharacterDao().count() !=0
                 || daoSession.getDictionaryDao().count() != 0){
             return;
         }

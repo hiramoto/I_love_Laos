@@ -12,9 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+
+import com.laos.hiramoto.ilovelaos.model.DaoMaster;
+import com.laos.hiramoto.ilovelaos.model.DaoSession;
+import com.laos.hiramoto.ilovelaos.model.Dictionary;
+import com.laos.hiramoto.ilovelaos.model.DictionaryDao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +36,7 @@ public class DictionaryFragment extends Fragment implements AdapterView.OnItemCl
 
     private OnFragmentInteractionListener mListener;
 
-    private List<dictionary> dicList;
+    private List<Dictionary> dicList;
     private String lastWords = "";
 
     public static DictionaryFragment newInstance() {
@@ -77,7 +81,7 @@ public class DictionaryFragment extends Fragment implements AdapterView.OnItemCl
 
         //選択時のイベントセット
         ListView listView = (ListView) v.findViewById(R.id.listView);
-        listView.setOnItemClickListener((AdapterView.OnItemClickListener) this);
+        listView.setOnItemClickListener(this);
 
         return v;
     }
@@ -115,7 +119,6 @@ public class DictionaryFragment extends Fragment implements AdapterView.OnItemCl
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         //Viewにフォーカスを移す
         view.requestFocus();
-        return;
 
         //TODO:長押しでActivity起動するように変える
         //view.findViewById(R.id.typeLaoScript);
@@ -135,14 +138,14 @@ public class DictionaryFragment extends Fragment implements AdapterView.OnItemCl
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
+        void onFragmentInteraction(Uri uri);
     }
 
     private void showResult(){
 
         String param = ((EditText)getActivity().findViewById(R.id.editText)).getText().toString();
 
-        ArrayList<dictionary> newList = new ArrayList<>();
+        ArrayList<Dictionary> newList = new ArrayList<>();
         //データがあって、前回と同じ文字をもっているならそこから絞り込み
         //なければ新規取得。
         if( param.startsWith(lastWords)
@@ -163,11 +166,11 @@ public class DictionaryFragment extends Fragment implements AdapterView.OnItemCl
 
         SQLiteDatabase db = new DaoMaster.DevOpenHelper(getActivity(), "laosDb", null).getWritableDatabase();
         DaoSession session = new DaoMaster(db).newSession();
-        dictionaryDao dao = session.getDictionaryDao();
-        de.greenrobot.dao.query.Query<dictionary> query = dao.queryBuilder().where(
-                dictionaryDao.Properties.Yomi.like(param)
+        DictionaryDao dao = session.getDictionaryDao();
+        org.greenrobot.greendao.query.Query<Dictionary> query = dao.queryBuilder().where(
+                DictionaryDao.Properties.Yomi.like(param)
         ).orderAsc(
-                dictionaryDao.Properties.Yomi).build();
+                DictionaryDao.Properties.Yomi).build();
         dicList = query.list();
 
         lastWords = param;
