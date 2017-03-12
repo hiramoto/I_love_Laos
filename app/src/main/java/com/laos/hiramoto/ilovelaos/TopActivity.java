@@ -138,7 +138,10 @@ public class TopActivity extends AppCompatActivity implements DictionaryFragment
         @Override
         public Fragment getItem(int position) {
             if (position == 0) {
-                return  new TopFragment();
+                return new TopFragment();
+            }else if(position == 1){
+                //TODO:未実装
+                return new BlankFragment();
             }else{
                 return new DictionaryFragment();
             }

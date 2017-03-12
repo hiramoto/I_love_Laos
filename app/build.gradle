@@ -12,8 +12,8 @@ android {
         versionCode 10
         versionName "1.10"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        vectorDrawables{
-            useSupportLibrary=true
+        vectorDrawables {
+            useSupportLibrary = true
         }
     }
     buildTypes {
@@ -22,7 +22,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    sourceSets {    
+    sourceSets {
         main {
             java.srcDirs = ['src/main/java']
         }
@@ -41,7 +41,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.1.1'
     compile 'com.android.support:design:25.1.1'
     compile 'com.jakewharton:butterknife:8.5.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
-    testCompile 'junit:junit:4.12'
     compile 'org.greenrobot:greendao:3.2.0'
+    compile 'com.android.support:support-v4:25.1.1'
+    testCompile 'junit:junit:4.12'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 }

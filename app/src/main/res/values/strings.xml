@@ -19,7 +19,7 @@
     <string name="add_memo">Add Memo</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment">This function is not implemented.</string>
     <string name="title_activity_setting">SettingActivity</string>
     <string name="title_activity_words_import">WordsImportActivity</string>
     <string name="title_activity_top">TopActivity</string>

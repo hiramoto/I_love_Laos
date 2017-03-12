@@ -130,35 +130,14 @@ public class DictionaryFragment extends Fragment implements AdapterView.OnItemCl
 
         String param = ((EditText)getActivity().findViewById(R.id.editText)).getText().toString();
 
-//        ArrayList<Dictionary> newList = new ArrayList<>();
-//        //データがあって、前回と同じ文字をもっているならそこから絞り込み
-//        //なければ新規取得。
-//        if( param.startsWith(lastWords)
-//                && dicList != null
-//                && dicList.size() > 0){
-//
-//            for (int i = 0; i < dicList.size(); i++) {
-//                String yomi = dicList.get(i).getYomi();
-//                if (yomi.contains(param)){
-//                    newList.add(dicList.get(i));
-//                }
-//            }
-//            dicList = newList;
-//
-//            if (dicList.size() != 0) return;
-//
-//        }
-
         SQLiteDatabase db = new DaoMaster.DevOpenHelper(getActivity(), "laosDb", null).getWritableDatabase();
         DaoSession session = new DaoMaster(db).newSession();
         DictionaryDao dao = session.getDictionaryDao();
         org.greenrobot.greendao.query.Query<Dictionary> query = dao.queryBuilder().where(
-                DictionaryDao.Properties.Yomi.like(param)
+                DictionaryDao.Properties.Yomi.like(param + "%")
         ).orderAsc(
                 DictionaryDao.Properties.Yomi).build();
         dicList = query.list();
-
-        //lastWords = param;
 
         DictionaryAdapter adapter = new DictionaryAdapter(this.getActivity().getApplicationContext());
         adapter.setWordsList(dicList);
